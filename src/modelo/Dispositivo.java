@@ -166,5 +166,5 @@ public class Dispositivo {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }   
+    }
 }
