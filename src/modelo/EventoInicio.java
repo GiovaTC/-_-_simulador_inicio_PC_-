@@ -85,4 +85,39 @@ public class EventoInicio {
         this.fechaHora = fechaHora;
     }
 
-}
+    /**
+     * Devuelve la fecha con formato legible.
+     *
+     * @return Fecha formateada.
+     */
+
+    public String getFechaFormateada() {
+
+        DateTimeFormatter formato =
+                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        return fechaHora.format(formato);
+    }
+
+    /**
+     * Imprime el evento en consola .
+     */
+    public void mostrarEvento() {
+
+        System.out.println("--------------------------------------------");
+        System.out.println("ID          : " + id);
+        System.out.println("Evento      : " + descripcion);
+        System.out.println("Fecha/Hora  : " + getFechaFormateada());
+        System.out.println("--------------------------------------------");
+    }
+
+    @Override
+    public String toString() {
+
+        return "EventoInicio{" +
+                "id=" + id +
+                ", descripcion='" + descripcion + '\'' +
+                ", fechaHora=" + getFechaFormateada() +
+                '}';
+    }
+}   
