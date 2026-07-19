@@ -35,6 +35,10 @@ public class ConexionBD {
 
     private Connection conexion;
 
+    public static Connection obtenerConexion() {
+        return null;
+    }
+
     /**
      *  abre la conexion con la bd .
      */

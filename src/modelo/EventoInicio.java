@@ -120,4 +120,4 @@ public class EventoInicio {
                 ", fechaHora=" + getFechaFormateada() +
                 '}';
     }
-}   
+}

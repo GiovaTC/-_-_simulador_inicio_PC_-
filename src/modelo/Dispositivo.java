@@ -35,7 +35,13 @@ public class Dispositivo {
     //==========================================
     // Constructor vacío
     //==========================================
+    public Dispositivo() {
 
+    }
+
+    //==========================================
+    // Constructor con parámetros
+    //==========================================
   public Dispositivo(int id,
                      String nombre,
                      String tipo,
