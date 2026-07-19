@@ -216,5 +216,5 @@ public class DispositivoDAO {
         }
 
         System.out.println("----------------------------------------------");
-    }   
+    }
 }
