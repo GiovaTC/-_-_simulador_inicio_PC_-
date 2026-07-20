@@ -98,5 +98,5 @@ public class Main {
         System.out.println("1. Iniciar simulación");
         System.out.println("2. Salir");
         System.out.println();
-    }          
+    }
 }
