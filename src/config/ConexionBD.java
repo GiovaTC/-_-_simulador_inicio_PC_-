@@ -10,144 +10,166 @@ import java.sql.SQLException;
  * ==========================================================
  * Clase: ConexionBD
  * Proyecto: SimuladorInicioPC
- * Autor: giovanny a tapiero c :. . / .
  * Java: 21
  * Base de Datos: MySQL 8
  * ==========================================================
  *
  * Responsabilidades:
- *  - Abrir conexión con MySQL.
- *  - Cerrar conexión.
- *  - Ejecutar instrucciones INSERT, UPDATE y DELETE.
- *  - Ejecutar consultas SELECT.
- *
+ * - Obtener una conexión con MySQL.
+ * - Cerrar una conexión.
+ * - Ejecutar INSERT, UPDATE y DELETE.
+ * - Ejecutar consultas SELECT.
  */
-
 public class ConexionBD {
 
-    // ==========================
-    // Datos de conexion
-    // ==========================
+    // ======================================================
+    // Datos de conexión
+    // ======================================================
+
     private static final String URL =
             "jdbc:mysql://localhost:3306/simulador_pc?serverTimezone=UTC";
+
     private static final String USUARIO = "root";
+
     private static final String PASSWORD = "Tapiero123";
 
-    private Connection conexion;
-
-    public static Connection obtenerConexion() {
-        return null;
+    /**
+     * Constructor privado para evitar instancias.
+     */
+    private ConexionBD() {
     }
 
+    // ======================================================
+    // OBTENER CONEXIÓN
+    // ======================================================
+
     /**
-     *  abre la conexion con la bd .
+     * Obtiene una conexión con MySQL.
+     *
+     * @return Connection
      */
+    public static Connection obtenerConexion() {
 
-    public Connection abrirConexion() {
         try {
-            if(conexion == null || conexion.isClosed()) {
-                conexion = DriverManager.getConnection(
-                        URL,
-                        USUARIO,
-                        PASSWORD
-                );
 
-                System.out.println("conexion establecida con mySQL. ");
-            }
+            Connection conexion = DriverManager.getConnection(
+                    URL,
+                    USUARIO,
+                    PASSWORD
+            );
+
+            System.out.println("[MYSQL] Conexión establecida correctamente.");
+
+            return conexion;
+
         } catch (SQLException e) {
 
-            System.out.println("error al conectar con mysql!");
+            System.out.println("[MYSQL] Error al conectar.");
 
             e.printStackTrace();
+
+            return null;
         }
 
-        return conexion;
     }
 
+    // ======================================================
+    // CERRAR CONEXIÓN
+    // ======================================================
+
     /**
-     *  cierra la conexion .
+     * Cierra una conexión.
+     *
+     * @param conexion Conexión a cerrar.
      */
-    public void cerrarConexion() {
+    public static void cerrarConexion(Connection conexion) {
+
         try {
+
             if (conexion != null && !conexion.isClosed()) {
+
                 conexion.close();
 
-                System.out.println("conexion cerrada!");
+                System.out.println("[MYSQL] Conexión cerrada.");
+
             }
+
         } catch (SQLException e) {
+
             System.out.println("Error al cerrar la conexión.");
+
             e.printStackTrace();
+
         }
+
     }
 
+    // ======================================================
+    // INSERT - UPDATE - DELETE
+    // ======================================================
+
     /**
-     * Ejecuta INSERT, UPDATE o DELETE .
+     * Ejecuta una sentencia INSERT, UPDATE o DELETE.
      *
-     * @param sql Sentencia SQL .
-     * @param parametros Valores para el PreparedStatement.
+     * @param sql SQL a ejecutar.
+     * @param parametros Parámetros del PreparedStatement.
      * @return true si la operación fue exitosa.
      */
-    public boolean ejecutarInsert(String sql, Object... parametros) {
+    public static boolean ejecutarUpdate(String sql, Object... parametros) {
 
-        try {
-            abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement(sql);
+        try (Connection conexion = obtenerConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
 
             for (int i = 0; i < parametros.length; i++) {
 
                 ps.setObject(i + 1, parametros[i]);
+
             }
 
-            int filas = ps.executeUpdate();
-
-            ps.close();
-            return filas > 0;
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
 
-            System.out.println("Error al ejecutar INSERT.");
+            System.out.println("Error al ejecutar UPDATE.");
+
             e.printStackTrace();
 
             return false;
+
         }
+
     }
 
+    // ======================================================
+    // SELECT
+    // ======================================================
+
     /**
-     * Ejecuta una consulta SELECT .
+     * Ejecuta una consulta SELECT.
      *
-     * @param sql Sentencia SQL.
-     * @param parametros Parámetros del PreparedStatement.
-     * @return ResultSet con los datos encontrados.
+     * IMPORTANTE:
+     * El ResultSet depende de la conexión, por lo que el método
+     * NO debe cerrarla automáticamente.
+     *
+     * @param conexion Conexión abierta.
+     * @param sql Consulta SQL.
+     * @param parametros Parámetros.
+     * @return ResultSet.
+     * @throws SQLException Error SQL.
      */
+    public static ResultSet ejecutarSelect(
+            Connection conexion,
+            String sql,
+            Object... parametros) throws SQLException {
 
-    public ResultSet ejecutarSelect(String sql, Object... parametros) {
+        PreparedStatement ps = conexion.prepareStatement(sql);
 
-        try {
-            abrirConexion();
-            PreparedStatement ps = conexion.prepareStatement(sql);
+        for (int i = 0; i < parametros.length; i++) {
 
-            for (int i = 0; i < parametros.length; i++) {
+            ps.setObject(i + 1, parametros[i]);
 
-                ps.setObject(i + 1, parametros[i]);
-            }
-
-            return ps.executeQuery();
-
-        } catch (SQLException e) {
-
-            System.out.println("Error al ejecutar SELECT.");
-
-            e.printStackTrace();
         }
 
-        return null;
-    }
-
-    /**
-     * Devuelve la conexión activa.
-     */
-    public Connection getConexion() {
-
-        return conexion;
+        return ps.executeQuery();
     }
 }
