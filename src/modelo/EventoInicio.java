@@ -23,6 +23,7 @@ public class EventoInicio {
     private int id;
     private String descripcion;
     private LocalDateTime fechaHora;
+    private LocalDateTime fecha;
 
     /**
      * Constructor vacío .
@@ -119,5 +120,13 @@ public class EventoInicio {
                 ", descripcion='" + descripcion + '\'' +
                 ", fechaHora=" + getFechaFormateada() +
                 '}';
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 }
