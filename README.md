@@ -1,8 +1,12 @@
 # -_-_simulador_inicio_PC_- :.
 # 💻 SimuladorInicioPC:
 
-<img width="1254" height="1254" alt="image" src="https://github.com/user-attachments/assets/aa8b5b07-ddf4-4313-a6b3-08f708cfa1c9" />  
+<img width="1254" height="1254" alt="image" src="https://github.com/user-attachments/assets/aa8b5b07-ddf4-4313-a6b3-08f708cfa1c9" />   
 
+<img width="2553" height="1040" alt="image" src="https://github.com/user-attachments/assets/df71dae2-8ff9-4f49-b42c-0224f5b3f507" />   
+
+<img width="2544" height="1028" alt="image" src="https://github.com/user-attachments/assets/87a764d9-5239-4980-a572-b25f168deaeb" />   
+   
 ```
 
 Proyecto desarrollado en **Java 21** utilizando **IntelliJ IDEA**, **Consola**, **MySQL 8** y **JDBC**, que simula el proceso de arranque (*boot*) de un computador, e
